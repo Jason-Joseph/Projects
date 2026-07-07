@@ -29,8 +29,6 @@ An end-to-end analysis of **11.7 million US domestic flight records** (2002–20
 </tr>
 </table>
 
-> A refined, portfolio version of this analysis — with professional styling, cross-validation, and a documented "simple models first" modeling philosophy — lives in a [dedicated repo](https://github.com/Jason-Joseph/airline-delay-analysis).
-
 ---
 
 ## 🚗 [Coursework Regression.R](Coursework%20Regression.R)
@@ -46,8 +44,6 @@ Predicts car price from the Kaggle **CarPrice** dataset using three regression t
 - 🌲 **Random Forest** (500 trees) — with permutation-based variable importance
 
 **Evaluation:** All three models scored on **RMSE** and **R²**, ranked in a summary table. `enginesize`, `curbweight`, and `horsepower` consistently emerged as the strongest predictors across CART and Random Forest importance rankings.
-
-> 💡 This is an R script — GitHub renders the code with syntax highlighting, but plots require running it locally (`Rscript "Coursework Regression.R"`) since R scripts don't carry saved outputs the way notebooks do.
 
 ---
 
@@ -68,8 +64,6 @@ A two-part analysis of **telecom customer churn** — first unsupervised (who ar
 - 🌲 **Random Forest** — importance ranking flagged `Contract`, `Monthly_Charge`, and `Tenure` as the top churn drivers
 
 **Evaluation:** Accuracy, Precision, Recall, and macro-averaged **F1** across all three classifiers — each landing around **85% accuracy**, ranked in a final comparison table.
-
-> 💡 Same note as above — this is an R script; run it locally to reproduce the cluster plots and confusion matrices.
 
 ---
 
