@@ -18,15 +18,14 @@ An end-to-end analysis of **11.7 million US domestic flight records** (2002–20
 
 **Key findings:** Saturday and ~3:30 AM departures see the lowest average delay; departure delay strongly predicts arrival delay (evidence of cascading effects); Linear Regression matches the more complex models on accuracy.
 
-<img src="assets/q1_delay_by_day.png" width="600"/>
-
 <table>
 <tr>
+<td><img src="assets/q1_delay_by_day.png" width="380"/></td>
 <td><img src="assets/q4_correlation_matrix.png" width="380"/></td>
-<td><img src="assets/q5_mse_comparison.png" width="380"/></td>
 </tr>
 <tr>
-<td colspan="2"><img src="assets/q5_rsq_comparison.png" width="380"/></td>
+<td><img src="assets/q5_mse_comparison.png" width="380"/></td>
+<td><img src="assets/q5_rsq_comparison.png" width="380"/></td>
 </tr>
 </table>
 
