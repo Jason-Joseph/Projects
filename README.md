@@ -14,9 +14,22 @@ An end-to-end analysis of **11.7 million US domestic flight records** (2002–20
 - ✈️ **Q2 — Aircraft age:** Cross-referenced plane manufacture year against delay to test whether older aircraft fly worse
 - 📈 **Q3 — Traffic trends:** Tracked flight volume between locations over time
 - 🔗 **Q4 — Cascading delays:** Correlated departure delay against arrival delay across the network
-- 🤖 **Q5 — Predictive modeling:** Built and compared regression models (Linear Regression, Lasso, Ridge, Random Forest) to predict arrival delay, evaluated on **MSE** and **R²**
+- 🤖 **Q5 — Predictive modeling:** Built and compared four regression models to predict arrival delay from `Month`, `DayOfWeek`, `CRSDepTime`, `CRSArrTime`, `ActualElapsedTime`, `DepDelay`, and `Distance`
 
-**Key findings:** Saturday and ~3:30 AM departures see the lowest average delay; departure delay strongly predicts arrival delay (evidence of cascading effects); Linear Regression matches the more complex models on accuracy.
+**Why compare four models?** The features are a mix of a near-linear driver (`DepDelay`, given Q4's finding that it strongly correlates with `ArrDelay`) and weaker, noisier predictors (schedule/time features). Linear Regression tests how far a simple linear fit gets; Lasso and Ridge test whether regularizing away the noisier features helps generalization; Random Forest tests whether the noisier features actually hide non-linear interactions a linear model can't capture.
+
+**Result of the assessment:**
+
+| Model | R² | MSE |
+|---|---|---|
+| Random Forest | **0.975** | **37.98** |
+| Linear Regression | 0.939 | 93.84 |
+| Ridge Regression | 0.939 | 93.86 |
+| Lasso Regression | 0.842 | 242.82 |
+
+Random Forest wins outright here — its ability to model non-linear interactions between the schedule/time features and delay meaningfully outperforms the linear approaches, meaning the relationship isn't purely linear. Lasso underperforms Ridge/Linear, suggesting its regularization penalty removed signal the model needed rather than just noise.
+
+**Key findings:** Saturday and ~3:30 AM departures see the lowest average delay; departure delay strongly predicts arrival delay (evidence of cascading effects); Random Forest is the strongest predictor of arrival delay among the four models tested.
 
 <table>
 <tr>
@@ -31,7 +44,7 @@ An end-to-end analysis of **11.7 million US domestic flight records** (2002–20
 
 ---
 
-## 🚗 [Coursework Regression.R](Coursework%20Regression.R)
+## 🚗 [Vehicle-Price-Regression-Analysis.R](Vehicle-Price-Regression-Analysis.R)
 
 Predicts car price from the Kaggle **CarPrice** dataset using three regression techniques of increasing complexity.
 
@@ -47,7 +60,7 @@ Predicts car price from the Kaggle **CarPrice** dataset using three regression t
 
 ---
 
-## 📞 [Coursework Classification Unsupervised.R](Coursework%20Classification%20Unsupervised.R)
+## 📞 [Customer-Churn-Clustering-and-Classification.R](Customer-Churn-Clustering-and-Classification.R)
 
 A two-part analysis of **telecom customer churn** — first unsupervised (who are the customer segments?), then supervised (can we predict who churns?).
 
@@ -89,9 +102,32 @@ Exploratory analysis of retail superstore sales, asking where sales come from an
 
 ---
 
-## 🎓 [Dibimbing B14 Final Project.pdf](Dibimbing%20B14%20Final%20Project.pdf)
+## 🛍️ [Online-Retail-Customer-Analytics-Dashboard.pdf](Online-Retail-Customer-Analytics-Dashboard.pdf)
 
-Final capstone project writeup from the **Dibimbing** data analytics bootcamp (Batch 14).
+Capstone project from the **Dibimbing** data analytics bootcamp (Batch 14): a full customer analytics and retention study on a UK-based online retail dataset (Dec 2009 – Dec 2011, ~1.07M transactions), built around three business problems — understanding transactional behaviour, identifying best-selling products, and figuring out how to retain existing customers.
+
+**Approach:**
+- 🧹 **Pre-processing:** Removed rows missing `CustomerID` (~22% of the data — customer identity is essential for the segmentation work) and filtered out non-positive quantities, landing on 824,364 clean rows
+- 📊 **RFM Analysis** — scored every customer on **Recency**, **Frequency**, and **Monetary** value, then bucketed them into named segments (Best Customer, Loyal Customers, Big Spender, Potential Customers, Lost Cheap, Almost Lost, etc.) to prioritize retention effort
+- 📈 **Cohort Analysis** — tracked month-by-month retention for each signup cohort to see how long customers keep buying
+- 📋 **Executive Dashboard** — a single-page view combining sales trend, RFM segment mix, geographic revenue contribution, and top-selling products for stakeholders
+
+**Key findings:**
+- The UK dominates the customer base (£14.7M of revenue vs. £621K for the next-largest market, Ireland) — a concentration risk as well as a strength
+- Sales peaked in **Q4 2010** and show a recurring seasonal spike heading into every Q4, but overall 2011 volume and sales declined 4–10% versus 2010
+- The **December 2009 cohort** retained exceptionally well — 20–40% of customers were still purchasing 24 months later — but across cohorts generally, **the first 6–10 months after first purchase** is the critical window where most customers churn
+- **45.68%** of customers fall into the "Others/Recent Shopper" segment, the single largest RFM bucket, ahead of Loyal Customers (10.02%) and Best Customer (11.61%)
+
+**Recommendations proposed:** a loyalty points program, targeted re-engagement campaigns timed to the 6–10 month churn window, seasonal Q4 promotions, and expansion into the EIRE/Netherlands markets to reduce UK concentration risk.
+
+<img src="assets/rfm_dashboard.png" width="700"/>
+
+<table>
+<tr>
+<td><img src="assets/cohort_analysis.png" width="380"/></td>
+<td><img src="assets/best_selling_products.png" width="380"/></td>
+</tr>
+</table>
 
 ---
 
