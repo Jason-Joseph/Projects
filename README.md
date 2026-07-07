@@ -1,22 +1,22 @@
 # 📊 Projects
 
-A collection of data analysis and machine learning coursework, spanning regression, classification, clustering, and exploratory analysis in both Python and R.
+A collection of data analysis and machine learning coursework: regression, classification, clustering, and exploratory analysis in Python and R.
 
 ---
 
 ## ✈️ [Data Expo 2002-2003 Airline Time Data.ipynb](Data%20Expo%202002-2003%20Airline%20Time%20Data.ipynb)
 
-An end-to-end analysis of **11.7 million US domestic flight records** (2002–2003), structured around five investigative questions.
+Analyzes 11.7 million US domestic flight records from 2002 and 2003, split into five questions.
 
 **Approach:**
 - 🧹 Merged the 2002 and 2003 raw CSVs, verified there were no cancelled flights to exclude, and engineered a single `delay` variable (`ArrDelay + DepDelay`) as the basis for all five questions
-- 📅 **Q1 — Timing:** Grouped delay by day-of-week and scheduled time to find the lowest-delay windows
-- ✈️ **Q2 — Aircraft age:** Cross-referenced plane manufacture year against delay to test whether older aircraft fly worse
-- 📈 **Q3 — Traffic trends:** Tracked flight volume between locations over time
-- 🔗 **Q4 — Cascading delays:** Correlated departure delay against arrival delay across the network
-- 🤖 **Q5 — Predictive modeling:** Built and compared four regression models to predict arrival delay from `Month`, `DayOfWeek`, `CRSDepTime`, `CRSArrTime`, `ActualElapsedTime`, `DepDelay`, and `Distance`
+- 📅 **Q1: Timing.** Grouped delay by day of week and scheduled time to find the lowest delay windows
+- ✈️ **Q2: Aircraft age.** Cross referenced plane manufacture year against delay to test whether older aircraft fly worse
+- 📈 **Q3: Traffic trends.** Tracked flight volume between locations over time
+- 🔗 **Q4: Cascading delays.** Correlated departure delay against arrival delay across the network
+- 🤖 **Q5: Predictive modeling.** Built and compared four regression models to predict arrival delay from `Month`, `DayOfWeek`, `CRSDepTime`, `CRSArrTime`, `ActualElapsedTime`, `DepDelay`, and `Distance`
 
-**Why compare four models?** The features are a mix of a near-linear driver (`DepDelay`, given Q4's finding that it strongly correlates with `ArrDelay`) and weaker, noisier predictors (schedule/time features). Linear Regression tests how far a simple linear fit gets; Lasso and Ridge test whether regularizing away the noisier features helps generalization; Random Forest tests whether the noisier features actually hide non-linear interactions a linear model can't capture.
+The features split into one near linear driver, `DepDelay`, given Q4's finding that it correlates closely with `ArrDelay`, and several weaker, noisier schedule and time features. Linear Regression tests how far a plain linear fit gets. Lasso and Ridge test whether regularizing away the noisier features helps. Random Forest tests whether those features hide non-linear interactions a linear model can't reach.
 
 **Result of the assessment:**
 
@@ -27,9 +27,9 @@ An end-to-end analysis of **11.7 million US domestic flight records** (2002–20
 | Ridge Regression | 0.939 | 93.86 |
 | Lasso Regression | 0.842 | 242.82 |
 
-Random Forest wins outright here — its ability to model non-linear interactions between the schedule/time features and delay meaningfully outperforms the linear approaches, meaning the relationship isn't purely linear. Lasso underperforms Ridge/Linear, suggesting its regularization penalty removed signal the model needed rather than just noise.
+Random Forest wins outright. It captures non-linear interactions between the schedule and time features that the linear models miss, so the relationship isn't purely linear. Lasso lags behind Ridge and Linear too, which means its regularization penalty cut real signal, not just noise.
 
-**Key findings:** Saturday and ~3:30 AM departures see the lowest average delay; departure delay strongly predicts arrival delay (evidence of cascading effects); Random Forest is the strongest predictor of arrival delay among the four models tested.
+**Key findings:** Saturday and 3:30 AM departures see the lowest average delay. Departure delay predicts arrival delay closely, which supports the cascading delay theory from Q4. Random Forest is the strongest predictor of the four models tested.
 
 <table>
 <tr>
@@ -44,54 +44,54 @@ Random Forest wins outright here — its ability to model non-linear interaction
 
 ---
 
-## 🚗 [Vehicle-Price-Regression-Analysis.R](Vehicle-Price-Regression-Analysis.R)
+## 🚗 [Vehicle Price Regression Analysis.R](Vehicle%20Price%20Regression%20Analysis.R)
 
-Predicts car price from the Kaggle **CarPrice** dataset using three regression techniques of increasing complexity.
+Predicts car price from the Kaggle CarPrice dataset using three regression models.
 
 **Approach:**
 - 🧹 Dropped identifier columns, removed duplicates, and used the **IQR method** to strip outliers from `price`
 - 📊 Explored feature distributions and correlations before modeling
 - ✂️ 80/20 train-test split (`caTools`, seed-fixed for reproducibility)
-- 📐 **Multiple Linear Regression** — fit, then refined with **backward stepwise elimination** to drop non-significant predictors
-- 🌳 **CART (Decision Tree)** — grown to full depth, then **cost-complexity pruned** using the 1-SE rule on cross-validated error
-- 🌲 **Random Forest** (500 trees) — with permutation-based variable importance
+- 📐 **Multiple Linear Regression**, fit then refined with **backward stepwise elimination** to drop non-significant predictors
+- 🌳 **CART (Decision Tree)**, grown to full depth then **cost-complexity pruned** using the 1-SE rule on cross-validated error
+- 🌲 **Random Forest** (500 trees), with permutation-based variable importance
 
-**Evaluation:** All three models scored on **RMSE** and **R²**, ranked in a summary table. `enginesize`, `curbweight`, and `horsepower` consistently emerged as the strongest predictors across CART and Random Forest importance rankings.
+**Evaluation:** All three models are scored on **RMSE** and **R²** in a summary table. CART and Random Forest importance rankings both point to `enginesize`, `curbweight`, and `horsepower` as the strongest predictors.
 
 ---
 
-## 📞 [Customer-Churn-Clustering-and-Classification.R](Customer-Churn-Clustering-and-Classification.R)
+## 📞 [Customer Churn Clustering and Classification.R](Customer%20Churn%20Clustering%20and%20Classification.R)
 
-A two-part analysis of **telecom customer churn** — first unsupervised (who are the customer segments?), then supervised (can we predict who churns?).
+A two-part analysis of telecom customer churn. The unsupervised half segments customers into groups. The supervised half predicts who is about to churn.
 
-**Approach — Unsupervised:**
+**Approach, unsupervised:**
 - 🧹 Cleaned and recoded status labels, imputed missing values with the median, removed outliers from `Total_Revenue`
-- 📉 **PCA** to understand variance structure — the first 6 components capture 76% of variance, driven by tenure/charges, age, and long-distance usage patterns
-- 🎯 **K-means** (k=2, chosen via the silhouette method) — validated with **ANOVA**, confirming the two clusters differ significantly in tenure and revenue
+- 📉 **PCA** to understand variance structure. The first 6 components capture 76% of variance, driven by tenure and charges, age, and long-distance usage
+- 🎯 **K-means** with k=2, chosen via the silhouette method and validated with **ANOVA**. The two clusters differ in tenure and revenue
 - 🌿 **Hierarchical clustering** (Ward linkage) as a second, independent segmentation to cross-check the K-means result
 
-**Approach — Supervised classification:**
+**Approach, supervised classification:**
 - ✂️ 80/20 train-test split, features scaled for the linear model
 - 📐 **Logistic Regression** as the interpretable baseline
 - 🌳 **Decision Tree** with a confusion-matrix heatmap for visual diagnostics
-- 🌲 **Random Forest** — importance ranking flagged `Contract`, `Monthly_Charge`, and `Tenure` as the top churn drivers
+- 🌲 **Random Forest**. Importance ranking flags `Contract`, `Monthly_Charge`, and `Tenure` as the top churn drivers
 
-**Evaluation:** Accuracy, Precision, Recall, and macro-averaged **F1** across all three classifiers — each landing around **85% accuracy**, ranked in a final comparison table.
+**Evaluation:** Accuracy, Precision, Recall, and macro-averaged **F1** across all three classifiers, ranked in a final comparison table. Each lands around **85% accuracy**.
 
 ---
 
 ## 🛒 [Kaggle Superstore Data.ipynb](Kaggle%20Superstore%20Data.ipynb)
 
-Exploratory analysis of retail superstore sales, asking where sales come from and where profit actually leaks.
+Exploratory analysis of retail superstore sales: where sales come from, and where profit leaks.
 
 **Approach:**
 - 🧹 Cleaned and processed raw sales records, checked for missing values
 - 📈 Trend-lined sales and profit over time
 - 🗂️ Broke down performance by **category**, **region**, and **customer segment**
 - 📉 Correlation matrix to sanity-check relationships between sales, profit, and discount
-- 📐 A simple **Linear Regression** (`Profit ~ Sales + Quantity + Discount`) to quantify the discount-profit relationship directly
+- 📐 A **Linear Regression** (`Profit ~ Sales + Quantity + Discount`) to quantify how discount affects profit
 
-**Key findings:** Office Supplies is the most-purchased category, but Technology drives the most profit — suggesting a possible rebalancing opportunity away from Furniture. Discounting measurably hurts profit margins rather than growing volume enough to offset it.
+**Key findings:** Office Supplies is the most purchased category, but Technology drives the most profit. That gap points to a rebalancing opportunity away from Furniture. Discounting hurts profit margins more than it grows volume.
 
 <table>
 <tr>
@@ -102,23 +102,23 @@ Exploratory analysis of retail superstore sales, asking where sales come from an
 
 ---
 
-## 🛍️ [Online-Retail-Customer-Analytics-Dashboard.pdf](Online-Retail-Customer-Analytics-Dashboard.pdf)
+## 🛍️ [Online Retail Customer Analytics Dashboard.pdf](Online%20Retail%20Customer%20Analytics%20Dashboard.pdf)
 
-Capstone project from the **Dibimbing** data analytics bootcamp (Batch 14): a full customer analytics and retention study on a UK-based online retail dataset (Dec 2009 – Dec 2011, ~1.07M transactions), built around three business problems — understanding transactional behaviour, identifying best-selling products, and figuring out how to retain existing customers.
+Capstone project from the Dibimbing data analytics bootcamp, Batch 14. A customer analytics and retention study on a UK online retail dataset spanning December 2009 to December 2011, about 1.07 million transactions, built around three questions: how customers behave, which products sell best, and how to retain existing customers.
 
 **Approach:**
-- 🧹 **Pre-processing:** Removed rows missing `CustomerID` (~22% of the data — customer identity is essential for the segmentation work) and filtered out non-positive quantities, landing on 824,364 clean rows
-- 📊 **RFM Analysis** — scored every customer on **Recency**, **Frequency**, and **Monetary** value, then bucketed them into named segments (Best Customer, Loyal Customers, Big Spender, Potential Customers, Lost Cheap, Almost Lost, etc.) to prioritize retention effort
-- 📈 **Cohort Analysis** — tracked month-by-month retention for each signup cohort to see how long customers keep buying
-- 📋 **Executive Dashboard** — a single-page view combining sales trend, RFM segment mix, geographic revenue contribution, and top-selling products for stakeholders
+- 🧹 **Pre-processing.** Removed rows missing `CustomerID`, about 22% of the data, since customer identity matters for the segmentation work. Filtered out non-positive quantities, leaving 824,364 clean rows
+- 📊 **RFM Analysis.** Scored every customer on **Recency**, **Frequency**, and **Monetary** value, then bucketed them into named segments (Best Customer, Loyal Customers, Big Spender, Potential Customers, Lost Cheap, Almost Lost) to prioritize retention effort
+- 📈 **Cohort Analysis.** Tracked month by month retention for each signup cohort to see how long customers keep buying
+- 📋 **Executive Dashboard.** A single page view combining sales trend, RFM segment mix, geographic revenue contribution, and top selling products for stakeholders
 
 **Key findings:**
-- The UK dominates the customer base (£14.7M of revenue vs. £621K for the next-largest market, Ireland) — a concentration risk as well as a strength
-- Sales peaked in **Q4 2010** and show a recurring seasonal spike heading into every Q4, but overall 2011 volume and sales declined 4–10% versus 2010
-- The **December 2009 cohort** retained exceptionally well — 20–40% of customers were still purchasing 24 months later — but across cohorts generally, **the first 6–10 months after first purchase** is the critical window where most customers churn
+- The UK dominates the customer base: £14.7M in revenue against £621K for the next largest market, Ireland. That's a concentration risk as much as a strength
+- Sales peaked in **Q4 2010** and show a recurring seasonal spike heading into every Q4, but overall 2011 volume and sales declined 4 to 10% versus 2010
+- The **December 2009 cohort** retained well: 20 to 40% of customers were still purchasing 24 months later. Across cohorts generally, **the first 6 to 10 months after first purchase** is the window where most customers churn
 - **45.68%** of customers fall into the "Others/Recent Shopper" segment, the single largest RFM bucket, ahead of Loyal Customers (10.02%) and Best Customer (11.61%)
 
-**Recommendations proposed:** a loyalty points program, targeted re-engagement campaigns timed to the 6–10 month churn window, seasonal Q4 promotions, and expansion into the EIRE/Netherlands markets to reduce UK concentration risk.
+**Recommendations proposed:** a loyalty points program, targeted re-engagement campaigns timed to the 6 to 10 month churn window, seasonal Q4 promotions, and expansion into the EIRE and Netherlands markets to reduce UK concentration risk.
 
 <img src="assets/rfm_dashboard.png" width="700"/>
 
