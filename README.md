@@ -108,6 +108,7 @@ Capstone project from the Dibimbing data analytics bootcamp, Batch 14. A custome
 
 **Approach:**
 - 🧹 **Pre-processing.** Removed rows missing `CustomerID`, about 22% of the data, since customer identity matters for the segmentation work. Filtered out non-positive quantities, leaving 824,364 clean rows
+- 🗄️ **SQL segmentation.** Loaded the cleaned data into PostgreSQL and scored customers with CTEs and `NTILE` window functions ([Online Retail RFM Segmentation.sql](Online%20Retail%20RFM%20Segmentation.sql)), then exported the segmented table to Tableau
 - 📊 **RFM Analysis.** Scored every customer on **Recency**, **Frequency**, and **Monetary** value, then bucketed them into named segments (Best Customer, Loyal Customers, Big Spender, Potential Customers, Lost Cheap, Almost Lost) to prioritize retention effort
 - 📈 **Cohort Analysis.** Tracked month by month retention for each signup cohort to see how long customers keep buying
 - 📋 **Executive Dashboard.** A single page view combining sales trend, RFM segment mix, geographic revenue contribution, and top selling products for stakeholders
@@ -136,3 +137,5 @@ Capstone project from the Dibimbing data analytics bootcamp, Batch 14. A custome
 ![Python](https://img.shields.io/badge/Python-pandas%20%7C%20scikit--learn-blue)
 ![R](https://img.shields.io/badge/R-tidyverse%20%7C%20caret%20%7C%20randomForest-276DC3)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-F37626)
+![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791)
+![Tableau](https://img.shields.io/badge/Tableau-Dashboards-E97627)
